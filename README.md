@@ -14,7 +14,7 @@ This is my little project for "debug" WI-FI, key tags and some signals.
 > - ESP8266
 > - OLED Display 128x128
 > - Buttons
-> - Antenna for more best signal of WI-FI
+> - Antenna for more best WI-FI signal
 > - Transistor IRLZ44N or another of this gruop
 > - Battery
 > - Emitter LED
