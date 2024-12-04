@@ -1,11 +1,11 @@
-#ifndef mem_h
-#define mem_h
+#ifndef config_h
+#define config_h
 
 #include <Arduino.h>
 
-class mem {
+class config {
    public:
-    mem();
+    config();
     void init();
   private:
     int _init;  
