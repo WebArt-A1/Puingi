@@ -1,4 +1,4 @@
-# FlipFlopper.
+# Puingi.
 
 This is my little project for "debug" WI-FI, key tags and some signals.
 
