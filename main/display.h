@@ -1,11 +1,11 @@
-#ifndef display_h
-#define display_h
+#ifndef disp_control_h
+#define disp_control_h
 
 #include <Arduino.h>
 
-class display {
+class disp_control {
    public:
-    display();
+    disp_control();
     void init();
   private:
     int _init;  
