@@ -1,10 +1,14 @@
-#include <Wire.h>
-#include <U8g2lib.h>
+#include "./display.h"
+
+display disp;
 
 void setup() {
-  Serial.println("Display initialized");
+  Serial.begin(115200);
+  disp.init();
 }
 
 void loop() {
-  Serial.println("Display initialized");
+  disp.menu(0);
+  delay(100);
+  Serial.println("ArduBlock RU EN");
 }
