@@ -2,13 +2,13 @@
 
 display disp;
 
-void setup() {
-  Serial.begin(115200);
+void setup(void) {
+  Serial.begin(9600);
   disp.init();
+  disp.boot();
 }
 
-void loop() {
-  disp.menu(0);
+void loop(void) {
+  disp.menu(Serial.read());
   delay(100);
-  Serial.println("ArduBlock RU EN");
 }

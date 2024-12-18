@@ -8,6 +8,7 @@ class display {
     display();
     void init();
     void menu(int move);
+    void boot();
   private:
     int _init;  
 };
