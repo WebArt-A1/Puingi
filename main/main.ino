@@ -1,14 +1,13 @@
 #include "./display.h"
 
-display disp;
+Display disp;
 
 void setup(void) {
-  Serial.begin(9600);
-  disp.init();
-  disp.boot();
+  disp.begin();
+  Serial.begin(115200);
 }
 
 void loop(void) {
   disp.menu(Serial.read());
-  delay(100);
+  delay(10);
 }

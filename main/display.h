@@ -1,16 +1,15 @@
-#ifndef display_h
-#define display_h
+#ifndef DISPLAY_H
+#define DISPLAY_H
 
 #include <Arduino.h>
 
-class display {
-   public:
-    display();
-    void init();
-    void menu(int move);
-    void boot();
-  private:
-    int _init;  
+class Display {
+public:
+  Display();
+  void begin();
+  void menu(int move);
+private:
+  int _init;
 };
 
 #endif
