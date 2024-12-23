@@ -1,6 +1,8 @@
 #include "./display.h"
+#include "./Key13.h"
 
 Display disp;
+Key13 key13;
 
 void setup(void) {
   disp.begin();
@@ -8,6 +10,6 @@ void setup(void) {
 }
 
 void loop(void) {
-  disp.menu(Serial.read());
+  Serial.println("1");
   delay(10);
 }

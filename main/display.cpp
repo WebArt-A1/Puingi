@@ -62,9 +62,13 @@ const unsigned char scrol_bar [] = {
 	0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 
 	0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 
 	0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00
-};                                                                                                  // 1x112px
+};                                                                                                 // 1x112px
+const unsigned char scrol_select [] = {
+  0x06, 0x07, 0x07, 0x07, 0x07, 0x07, 0x06
+};                                                                                                 // 3x7px
+const char* main_menu_item[] = {"Wi-Fi", "IR", "NFC", "Signal", "Custom", "Settings"};
+const char* wifi_menu_item[] = {"Back", "Scan", "Attack", "Bacon", "Still"};
 
-const char* main_menu_item[] = {"Wi-Fi", "IR", "NFC   ", "Signal", "Custom", "Settings"};
 int now_index                = 0;
 int now_menu                 = 0;
 
@@ -91,7 +95,7 @@ void Display::menu(int move){
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_crox4t_tf);
 
-  u8g2.drawXBMP(0, 0, 1, 112, scrol_bar);
+  u8g2.drawXBMP(127, 10, 1, 112, scrol_bar);
 
   if (move == 49){
     now_index = now_index + 1;
@@ -110,12 +114,43 @@ void Display::menu(int move){
     if (now_index == 6){
       now_index = 0;
     }
+    u8g2.drawXBMP(126, 15 + now_index * 18, 3, 7, scrol_select);
     for (int i = 0; i < 6; i++){
       if (now_index == i){
         u8g2.drawXBMP(0, 16 + 19 * i - (now_index >= 3) * 19, 116, 20, selecter);
         u8g2.drawStr(10, 32 + 19 * i - (now_index >= 3) * 19, main_menu_item[i]);
+        if (move == 51){
+          if (i == 0){
+            now_menu = 1;
+            now_index = 0;
+          }
+        }
       } else {
         u8g2.drawStr(3, 32 + 19 * i - (now_index >= 3) * 19, main_menu_item[i]);
+      }
+    }
+  } else if (now_menu == 1){
+    if (now_index == -1){
+      now_index = 4;
+    }
+    if (now_index == 5){
+      now_index = 0;
+    }
+
+    u8g2.drawXBMP(126, 15 + now_index * 22, 3, 7, scrol_select);
+
+    for (int i = 0; i < 5; i++){
+      if (now_index == i){
+        u8g2.drawXBMP(0, 16 + 19 * i, 116, 20, selecter);
+        u8g2.drawStr(10, 32 + 19 * i, wifi_menu_item[i]);
+        if (move == 51){
+          if (i == 0){
+            now_menu = 0;
+            now_index = 0;
+          }
+        }
+      } else {
+        u8g2.drawStr(3, 32 + 19 * i, wifi_menu_item[i]);
       }
     }
   }
