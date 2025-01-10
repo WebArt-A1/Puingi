@@ -9,13 +9,24 @@ SdFat sd;
 String IsBoot="";
 String Name="";
 String Version="";
-// SPI setupNONE);
+
+uint8_t* data;
+uint8_t* data1;
+uint8_t* data2;
+uint8_t* data3;
+uint8_t* data4;
+uint8_t* data5;
+uint8_t* data6;
+uint8_t* data7;
+uint8_t* data8;
+uint8_t* data9;
+uint8_t* data10;
 
 U8G2_SH1107_SEEED_128X128_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 14, /* data=*/ 13, /* cs=*/ 15, /* dc=*/ 2, /* reset=*/ U8X8_PIN_NONE);
 
 void setup(void) {
 
-  Serial.begin(9600);
+  Serial.begin(921600);
   u8g2.begin();
 
   u8g2.clearBuffer();
@@ -136,8 +147,6 @@ void setup(void) {
     ESP.restart();
   }
 
-
-
   u8g2.setPowerSave(false);
   u8g2.begin();
   u8g2.setFont(u8g2_font_t0_11_tf);
@@ -187,33 +196,87 @@ void setup(void) {
 
   sd.begin(16);
 
-  String c;
+  if (true) { // 1
 
-  File32 bm1 = sd.open("/System/Load/Load_1.bm", FILE_READ);
+    File32 hexFile = sd.open("/System/Load/Load_1.bm", FILE_READ);
 
-  if (bm1) {
-    //while (bm1.available()) {
-    c = bm1.readString();
-    bm1.close();
+    uint16_t maxSize = hexFile.size();  // Get the size of the file
+    data = (uint8_t*) malloc(maxSize);
+
+    int index = 0;
+    String hexString = "";
+
+    while (hexFile.available() && index < maxSize) {
+      char c = hexFile.read();
+
+      if (c == ',' || c == '\n' || c == '\r') {
+        if (hexString.length() > 0) {
+          data[index] = strtol(hexString.c_str(), NULL, 16);
+          index++;
+          hexString = "";
+        }
+      } else if (c != ' ' && c != 'x') {
+        hexString += c;
+      }
+      yield();
+    }
+
+    hexFile.close();
+
+    if (hexString.length() > 0 && index < maxSize) {
+      data[index] = strtol(hexString.c_str(), NULL, 16);
+      index++;
+    }
   }
-  bm1.close();
 
-  char bmc1[c.length() + 1];
+  if (true) { // 2
 
-  c.toCharArray(bmc1, sizeof(bmc1));
+    File32 hexFile = sd.open("/System/Load/Load_2.bm", FILE_READ);
 
-  //uint8_t* buff = reinterpret_cast<uint8_t*>(bmc1);
+    uint16_t maxSize = hexFile.size();  // Get the size of the file
+    data1 = (uint8_t*) malloc(maxSize);
 
-  uint8_t* buff = {bmc1};
+    int index = 0;
+    String hexString = "";
+
+    while (hexFile.available() && index < maxSize) {
+      char c = hexFile.read();
+
+      if (c == ',' || c == '\n' || c == '\r') {
+        if (hexString.length() > 0) {
+          data1[index] = strtol(hexString.c_str(), NULL, 16);
+          index++;
+          hexString = "";
+        }
+      } else if (c != ' ' && c != 'x') {
+        hexString += c;
+      }
+      yield();
+    }
+
+    hexFile.close();
+
+    if (hexString.length() > 0 && index < maxSize) {
+      data1[index] = strtol(hexString.c_str(), NULL, 16);
+      index++;
+    }
+  }
+
+
+
 
   u8g2.setPowerSave(false);
   u8g2.begin();
 
-  Serial.print(bmc1);
+  u8g2.drawXBMP(0, 0, 128, 128, data);
+  u8g2.sendBuffer();
+  free(data);
 
-  u8g2.drawXBMP(0, 0, 128, 128, buff);
+  delay(500);
 
- 
+  u8g2.drawXBMP(0, 0, 128, 128, data1);
+  u8g2.sendBuffer();
+  free(data1);
 
 }
 
