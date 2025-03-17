@@ -60,6 +60,6 @@ void Boot::begin() {
   u8g2.clearBuffer();
   u8g2.drawStr(0, 8, "[OK] Main script was inited.");
   u8g2.drawStr(0, 16, "[OK] SD card was inited.");
-  u8g2.drawStr(0, 24, "[OK] Buttons was inited");
+  u8g2.drawStr(0, 24, "[OK] Buttons was inited.");
   u8g2.sendBuffer();
 }
