@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include "Setup.h"
 #include "Boot.h"
 
 Boot boot;
@@ -8,5 +8,6 @@ void setup() {
 }
 
 void loop() {
-
+  delay(1000);
+  esp_restart();
 }
