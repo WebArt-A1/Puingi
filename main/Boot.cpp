@@ -25,7 +25,7 @@ void primeCheck(){
     esp_sleep_enable_timer_wakeup(30 * 1000000);
     esp_sleep_disable_wakeup_source(ESP_SLEEP_WAKEUP_ALL);
     esp_sleep_enable_timer_wakeup(30 * 1000000);
-    delay(10)
+    delay(10);
     esp_deep_sleep_start();
   }
 }
@@ -46,9 +46,13 @@ void secCheck(){
 void Boot::begin() {
   Serial.begin(115200);
 
-  u8g2.drawStr(0, 7, "Display was inited!");
-  u8g2.sendBuffer();
-
   primeCheck();
   secCheck();
+  u8g2.sendBuffer();
+
+  delay(1000);
+
+  u8g2.clearBuffer();
+  u8g2.drawStr(0, 7, "Puingi by WebArt-A1");
+  u8g2.sendBuffer();
 }

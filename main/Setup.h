@@ -16,6 +16,5 @@ extern int BUTTON_CL_PIN;
 extern int BUTTON_DW_PIN;
 extern int SD_CART_PIN;
 extern int ADC_VOLT_PIN;
-extern int selectText[];
 
 #endif
