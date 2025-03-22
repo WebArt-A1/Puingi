@@ -50,9 +50,11 @@ void Boot::begin() {
   secCheck();
   u8g2.sendBuffer();
 
-  delay(1000);
+  u8g2.drawStr(0, 25, "Puingi by WebArt-A1");
+  u8g2.sendBuffer();
 
+  delay(2500);
+  
   u8g2.clearBuffer();
-  u8g2.drawStr(0, 7, "Puingi by WebArt-A1");
   u8g2.sendBuffer();
 }
