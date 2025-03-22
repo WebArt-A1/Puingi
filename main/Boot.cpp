@@ -39,6 +39,8 @@ void secCheck(){
     u8g2.sendBuffer();
   }
   initDisplay();
+  u8g2.drawStr(0, 7, "Display was inited!");
+  u8g2.drawStr(0, 16, "SD card was inited!");
 }
 
 void Boot::begin() {
