@@ -11,6 +11,6 @@ void setup() {
 }
 
 void loop() {
-  delay(50);
+  delay(100);
   menu.main(digitalRead(BUTTON_UP_PIN), digitalRead(BUTTON_CL_PIN), digitalRead(BUTTON_DW_PIN));
 }
