@@ -8,8 +8,6 @@ bool upFlag = true;
 bool clFlag = true;
 bool dwFlag = true;
 
-int dropFlag = 0;
-
 int countLetters(const String& str) {
   int count = 0;
   for (int i = 0; i < str.length(); i++) {
@@ -33,6 +31,15 @@ String Settings[] = {
   "Back"
 };
 
+void controlIndex(int max){
+  if(nowIndex == 0) {
+    nowIndex = max;
+  }
+  if(nowIndex > max) {
+    nowIndex = 1;
+  }
+}
+
 void Menu::begin() {
   pinMode(BUTTON_UP_PIN, INPUT);
   pinMode(BUTTON_CL_PIN, INPUT);
@@ -40,67 +47,57 @@ void Menu::begin() {
 }
 
 void Menu::main(int up, int click, int down) {
-  dropFlag++;
-
-  if(dropFlag == 3){
-    dropFlag = 0;
-    upFlag = true;
-    clFlag = true;
-    dwFlag = true;
-  }
 
   u8g2.clearBuffer();
 
   u8g2.setFont(u8g2_font_6x12_tr);
   u8g2.drawStr(64 - (countLetters(nowMenu) * 6) / 2, 7, nowMenu.c_str()); 
 
-  if(up && upFlag) {
+  if (up && upFlag) {
     upFlag = false;
-    nowIndex -= 1;
+    nowIndex--;
+  } else if(!up) {
+    upFlag = true;
   }
-  if(down && dwFlag) {
+
+  if (down && dwFlag) {
     dwFlag = false;
-    nowIndex += 1;
+    nowIndex++;
+  } else if(!down) {
+    dwFlag = true;
   }
 
   if(nowMenu == "Main Menu"){
-    if(nowIndex == 0) {
-      nowIndex = 2;
-    }
-    if(nowIndex == 3) {
-      nowIndex = 1;
-    }
+    controlIndex(2);
     for(int i=1; i<=2; i++){
       u8g2.setFont(u8g2_font_7x14_tr);
       if(i == nowIndex) {
         u8g2.setFont(u8g2_font_7x14B_tr);
-        if(click) {
+        if(click && clFlag) {
+          clFlag = false;
           nowMenu = Menus[i];
-          delay(250);
+        } else if(!click) {
+          clFlag = true;
         }
       }
       u8g2.drawStr(0, 14+i*16, Menus[i].c_str());
     }
   }                                                   // Main menu 
   if(nowMenu == "Settings"){
-    if(nowIndex == 0) {
-      nowIndex = 2;
-    }
-    if(nowIndex == 3) {
-      nowIndex = 1;
-    }
-    for(int i=1; i<=2; i++){
+    controlIndex(1);
+    for(int i=1; i<=1; i++){
       u8g2.setFont(u8g2_font_7x14_tr);
       if(i == nowIndex) {
         u8g2.setFont(u8g2_font_7x14B_tr);
-        if(click) {
+        if(click && clFlag) {
+          clFlag = false;
           if(Settings[i] == "Back"){
             nowMenu = "Main Menu";
-            delay(250);
           } else {
             nowMenu = Settings[i];
-            delay(250);
           }
+        } else if(!click) {
+          clFlag = true;
         }
       }
       u8g2.drawStr(0, 14+i*16, Settings[i].c_str());
