@@ -8,6 +8,8 @@ bool upFlag = true;
 bool clFlag = true;
 bool dwFlag = true;
 
+String nowDir = "/"
+
 int countLetters(const String& str) {
   int count = 0;
   for (int i = 0; i < str.length(); i++) {
@@ -103,7 +105,26 @@ void Menu::main(int up, int click, int down) {
       u8g2.drawStr(0, 14+i*16, Settings[i].c_str());
     }
   }
-
+  if(nowMenu == "Files"){
+    controlIndex(1);
+    for(int i=1; i<=1; i++){
+      u8g2.setFont(u8g2_font_7x14_tr);
+      if(i == nowIndex) {
+        u8g2.setFont(u8g2_font_7x14B_tr);
+        if(click && clFlag) {
+          clFlag = false;
+          if(Settings[i] == "Back"){
+            nowMenu = "Main Menu";
+          } else {
+            nowMenu = Settings[i];
+          }
+        } else if(!click) {
+          clFlag = true;
+        }
+      }
+      u8g2.drawStr(0, 14+i*16, Settings[i].c_str());
+    }
+  }
   if(click && up && down) {
     esp_restart();  
   }
