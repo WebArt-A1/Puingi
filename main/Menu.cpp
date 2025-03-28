@@ -1,8 +1,10 @@
 #include "Menu.h"
 #include "Setup.h"
+#include <vector>
 
 String nowMenu = "Main Menu";
 int nowIndex = 1;
+std::vector<String> fileList;
 
 int x = 0;
 int y = 0;
@@ -297,13 +299,8 @@ void Menu::main(int up, int click, int down) {
     }
   }
   if (nowMenu == "Wifi-C-C") {
+
     File dir = SD.open("/system32/configs/wifi");
-    
-    if (!dir || !dir.isDirectory()) {
-      u8g2.drawStr(0, 14, "Dir error!");
-      u8g2.sendBuffer();
-      return;
-    }
 
     u8g2.setFont(u8g2_font_7x14_tr);
     int x = 0;
@@ -312,18 +309,46 @@ void Menu::main(int up, int click, int down) {
     File file;
     while ((file = dir.openNextFile())) {
       const char* filename = file.name();
-      
-      if (!file.isDirectory()) {
-          u8g2.drawStr(x, 7+y*16, filename);
-          y += 1;
-      }
+
+      fileList.push_back(String(filename));
+
+      x++;
+
       file.close();
-      u8g2.sendBuffer();
-      delay(50);
     }
+
+    fileList.push_back("Back");
+    x++;
+
+    for(int i=0; i <= x-1; i++) {
+      if(up && upFlag) {
+        nowIndex--;
+        upFlag = false;
+      } else if (!up) {
+        upFlag = true;
+      }
+
+      if(down && dwFlag) {
+        nowIndex++;
+        dwFlag = false;
+      } else if (!down) {
+        dwFlag = true;
+      }
+
+      if(i == nowIndex) {
+        u8g2.drawXBMP(0, (1+i)*16, 4, 14, sel);
+        u8g2.drawStr(8, 30+i*16, fileList[i].c_str());
+        if(fileList[i] == "Back") {
+          nowMenu = "Settings";
+        }
+      } else {
+        u8g2.drawStr(0, 30+i*16, fileList[i].c_str());
+      }
+      }
+      controlIndex(x);
+
     dir.close();
   }
-
 
   if(click && up && down) {
     for(int i=3; i !=-1; i--) {
